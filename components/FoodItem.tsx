@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { IFoodItem } from '@/types/utils'; 
 import { PanGestureHandler, PanGestureHandlerGestureEvent, PanGestureHandlerProps } from 'react-native-gesture-handler';
 import Animated, { Easing, Extrapolation, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
@@ -16,7 +16,7 @@ type ContextType = {
   temp: number;
 };
 
-const ITEM_HEIGHT = 56;
+const ITEM_HEIGHT = 92;  
 const { width: DEVICE_WIDTH } = Dimensions.get('window');
 const DELETE_BUTTON_WIDTH = DEVICE_WIDTH * 0.3;
 const SWIPE_THRESHOLD = DELETE_BUTTON_WIDTH;
@@ -123,14 +123,23 @@ const FoodItem: React.FC<Props> = ({ data, passRef, onRemove, simultaneousHandle
         <Animated.View style={[styles.deleteInnerContainer, rDeleteViewStyles]}/>
         <AnimatedTouchableOpacity style={[styles.textContainer, rTextContainer]} onPress={handlePress}>
           <Animated.Text style={[styles.minusIcon, rMinusIcon]}>-</Animated.Text>
-          <Animated.Text style={[styles.remove, rRemove]}>REMOVE ITEM</Animated.Text>
-          <Animated.Text style={[styles.remove, rRemoving]}>REMOVING</Animated.Text>
+          <Animated.Text style={[styles.remove, rRemove]}>
+            REMOVE ITEM
+          </Animated.Text>
+          <Animated.Text style={[styles.remove, rRemoving]}>
+            REMOVING
+          </Animated.Text>
         </AnimatedTouchableOpacity>
       </View>
       <PanGestureHandler ref={(ref) => passRef(ref)} simultaneousHandlers={simultaneousHandlers} onGestureEvent={panGestureHandler}>
         <Animated.View style={[styles.innerContainer, rInnerContainer]}>
-          <View style={styles.quantityContainer}>
-            <Text>{data.quantity}</Text>
+          <View style={styles.leftSide}>
+            <View style={styles.imageContainer}>
+              <Image source={data.imageUrl} style={styles.image} />
+            </View> 
+            <View style={styles.quantityContainer}>
+              <Text style={styles.quantityText}>{data.quantity}</Text>
+            </View>
           </View>
           <View style={styles.itemsContainer}>
             <Text style={styles.name}>{data.name}</Text>
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: ITEM_HEIGHT,
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
+    borderBottomColor: '#CBD5E1',
   },
   innerContainer: {
     flexDirection: 'row',
@@ -164,10 +173,13 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT,
     paddingHorizontal: 20,
   },
+  leftSide: {
+    flexDirection: "row",
+  },
   deleteContainer: {
     position: 'absolute',
     right: 0,
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#CBD5E1',
     justifyContent: 'center',
     alignItems: 'flex-end',
     height: '100%',
@@ -175,8 +187,7 @@ const styles = StyleSheet.create({
   },
   deleteInnerContainer: {
     position: 'absolute',
-    backgroundColor: '#ff5050',
-    borderRadius: 200,
+    backgroundColor: '#FB7185',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -197,11 +208,33 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600'
   },
+  imageContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    overflow: "hidden"
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
+  },
   quantityContainer: {
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#6366F1',
     paddingVertical: 4,
     paddingHorizontal: 6,
-    borderRadius: 4
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: -23,
+    marginTop: -5,
+  },
+  quantityText: {
+    fontWeight: 500,
+    color: "#fff",
+    opacity: 0.8
   },
   itemsContainer: {
     flexDirection: 'row',
@@ -209,12 +242,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   name: {
-    fontSize: 15,
-    fontWeight: '500',
-    marginLeft: 12
+    fontSize: 18,
+    fontWeight: '700',
+    marginLeft: 12,
+    color: "#020617"
   },
   amount: {
-    textAlign: 'right'
+    textAlign: 'right',
+    color: "#22C55E"
   }
 })
 

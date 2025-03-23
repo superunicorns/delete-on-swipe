@@ -11,20 +11,23 @@ const FOOD_ITEMS: IFoodItem[] = [
   {
     id: 1,
     name: 'Caprese Pizza',
-    amount: 'LKR 2,100.00',
+    amount: '$ 8',
     quantity: 2, 
+    imageUrl: require("../assets/images/pizza-italiana.jpeg"),
   },
   {
     id: 2,
     name: 'French Fries',
-    amount: 'LKR 700.00',
+    amount: '$ 4',
     quantity: 1,
+    imageUrl: require("../assets/images/french-fries.jpg"),
   },
   {
     id: 4,
     name: 'Milk Shake',
-    amount: 'LKR 700.00',
+    amount: '$ 5',
     quantity: 4,
+    imageUrl: require("../assets/images/milkshake.jpeg"),
   },
 ];
 
@@ -60,12 +63,13 @@ function HomeScreen() {
   );
 
   function renderItem({ item }: { item: IFoodItem }) {
-    return (
+    return ( 
       <FoodItem 
           simultaneousHandlers={flatListRef} 
           passRef={(ref) => panRef.current = ref} 
           data={item} 
-          onRemove={handleRemove} />
+          onRemove={handleRemove} 
+      />
     )
   }
 
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     height: 380,
     width: '100%',
-    backgroundColor: "yellow"
+    backgroundColor: "#CBD5E1"
   },
   image: {
     height: "100%",
@@ -100,16 +104,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginBottom: 6,
-    backgroundColor: "blue"
+    marginBottom: 1,
+    backgroundColor: "#fff",
+    alignItems: "center"
   },
   yourItems: {
-    fontSize: 16,
-    fontWeight: '500'
+    fontSize: 20,
+    fontWeight: '900',
+    color: "#020617"
   },
   seeMenu: {
-    color: 'green',
-    fontWeight: '500'
+    color: '#6366F1',
+    fontWeight: '900',
+    borderBottomColor: "#6366F1",
+    borderBottomWidth: 2,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 3, 
   }
 });
 
