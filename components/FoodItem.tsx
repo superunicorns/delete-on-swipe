@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity, View, Image } from 'rea
 import { IFoodItem } from '@/types/utils'; 
 import { PanGestureHandler, PanGestureHandlerGestureEvent, PanGestureHandlerProps } from 'react-native-gesture-handler';
 import Animated, { Easing, Extrapolation, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import moment from 'moment';
 
 interface Props extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {
   data: IFoodItem;
@@ -142,7 +143,10 @@ const FoodItem: React.FC<Props> = ({ data, passRef, onRemove, simultaneousHandle
             </View>
           </View>
           <View style={styles.itemsContainer}>
+            <View style={styles.nameContainer}>
             <Text style={styles.name}>{data.name}</Text>
+            <Text style={styles.date}>{`${moment(data.date).format("dddd")} ${(moment().format("a") === 'am' ? ' Morning' : 'Afternoon')}`}</Text>
+            </View>
             <Text style={styles.amount}>{data.amount}</Text>
           </View>
         </Animated.View>
@@ -164,12 +168,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: ITEM_HEIGHT,
     borderBottomWidth: 1,
-    borderBottomColor: '#CBD5E1',
+    borderBottomColor: '#475569',
   },
   innerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#020617',
     height: ITEM_HEIGHT,
     paddingHorizontal: 20,
   },
@@ -209,9 +213,9 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   imageContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     overflow: "hidden"
   },
   image: {
@@ -234,18 +238,31 @@ const styles = StyleSheet.create({
   quantityText: {
     fontWeight: 500,
     color: "#fff",
-    opacity: 0.8
+    opacity: 0.9
   },
   itemsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: "flex-start",
     flexGrow: 1,
+    height: "100%",
+    paddingTop: 19,
+  },
+  nameContainer: {
+    alignItems: "flex-start",
+    justifyContent: "center",
+    marginLeft: 12,
   },
   name: {
     fontSize: 18,
     fontWeight: '700',
-    marginLeft: 12,
-    color: "#020617"
+    color: "#fff",
+    opacity: 0.9,
+  },
+  date: {
+    color: "#fff",
+    marginTop: 4,
+    opacity: 0.4,
   },
   amount: {
     textAlign: 'right',

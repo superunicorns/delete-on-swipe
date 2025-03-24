@@ -1,11 +1,14 @@
 import React, { useRef, useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, FlatList, ScrollView } from 'react-native-gesture-handler';
 import { IFoodItem } from '@/types/utils';
 import FoodItem from '@/components/FoodItem';
-
+import GradientText from '@/components/GradientText';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import '@/reanimatedConfig';
-import { StatusBar } from 'expo-status-bar';
+
+const date = new Date();
 
 const FOOD_ITEMS: IFoodItem[] = [
   {
@@ -14,6 +17,7 @@ const FOOD_ITEMS: IFoodItem[] = [
     amount: '$ 8',
     quantity: 2, 
     imageUrl: require("../assets/images/pizza-italiana.jpeg"),
+    date
   },
   {
     id: 2,
@@ -21,6 +25,7 @@ const FOOD_ITEMS: IFoodItem[] = [
     amount: '$ 4',
     quantity: 1,
     imageUrl: require("../assets/images/french-fries.jpg"),
+    date
   },
   {
     id: 4,
@@ -28,28 +33,29 @@ const FOOD_ITEMS: IFoodItem[] = [
     amount: '$ 5',
     quantity: 4,
     imageUrl: require("../assets/images/milkshake.jpeg"),
+    date
   },
 ];
 
 function HomeScreen() {
-
   const [allItems, setAllItems] = useState(FOOD_ITEMS);
 
   const flatListRef = useRef(null);
   const panRef = useRef<React.Ref<any> | undefined>(undefined);
 
   return (
-    <GestureHandlerRootView>
-      <StatusBar hidden={true} backgroundColor={'transparent'} translucent/>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={require("../assets/images/pizza-italiana.jpeg")} style={styles.image} alt="Italian Pizza" />
+    <SafeAreaView style={{ flex: 1 }}>
+    <StatusBar hidden={true} backgroundColor={'transparent'} translucent/>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image source={require("../assets/images/pizza-italiana.jpeg")} style={styles.image} alt="Italian Pizza" />
+      </View>
+      <View style={styles.innerContainer}>
+        <View style={styles.topView}>
+        <GradientText style={{ fontSize: 18, fontWeight: 900 }}>Your Cart Food Items</GradientText>
+        <Text style={styles.seeMenu}>see menu</Text>
         </View>
-        <View style={styles.innerContainer}>
-          <View style={styles.topView}>
-          <Text style={styles.yourItems}>Your Cart</Text>
-          <Text style={styles.seeMenu}>see menu</Text>
-          </View>
+        <GestureHandlerRootView>
           <FlatList 
             ref={flatListRef} 
             data={allItems} 
@@ -57,9 +63,10 @@ function HomeScreen() {
             keyExtractor={(_item, _) => _item.id.toString()} 
             renderItem={renderItem} 
           />
-        </View>
+        </GestureHandlerRootView>
       </View>
-    </GestureHandlerRootView>
+    </View>
+  </SafeAreaView>
   );
 
   function renderItem({ item }: { item: IFoodItem }) {
@@ -80,19 +87,18 @@ function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   imageContainer: {
-    height: 360,
+    height: 300,
     width: "100%",
-    backgroundColor: "red"
+    backgroundColor: "#475569"
   },
   innerContainer: {
     height: 380,
     width: '100%',
-    backgroundColor: "#CBD5E1"
+    backgroundColor: "#475569"
   },
   image: {
     height: "100%",
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#020617",
     alignItems: "center"
   },
   yourItems: {

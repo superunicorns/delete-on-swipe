@@ -6,4 +6,5 @@ export interface IFoodItem {
   amount: string;
   quantity: number; 
   imageUrl: ImageSourcePropType | undefined;
+  date: Date | null;
 }
